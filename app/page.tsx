@@ -1,152 +1,160 @@
 import Link from 'next/link';
 import { getAllPosts } from '@/src/lib/markdown';
-import { ArrowUpRight, MapPin } from 'lucide-react';
+import { MapPin, Calendar, ArrowRight, Image as ImageIcon, Map, BookOpen } from 'lucide-react';
+import AppleCard from '@/src/components/ui/AppleCard';
+import Counter from '@/src/components/ui/Counter';
 
 const nextTrip = {
   destination: 'Hokkaido',
   destinationCN: '北海道',
   date: '2026-07-15',
-  note: '去看夏天的富良野，想住一晚只有星星的旅馆。',
+  note: '看夏天的富良野，住一晚只有星星的旅馆。',
   coords: '43.0642°N · 141.3469°E',
+  img: 'https://images.unsplash.com/photo-1580223573887-f133e9d80d19?w=1600&q=80',
 };
 
-const stats = [
-  { n: '12', label: 'Countries' },
-  { n: '38', label: 'Cities' },
-  { n: '147', label: 'Films Shot' },
-  { n: '∞', label: 'Moments' },
-];
-
 export default function Home() {
-  const travels = getAllPosts('travels').slice(0, 3);
+  const travels = getAllPosts('travels').slice(0, 5);
+  const notes = getAllPosts('notes').slice(0, 3);
   const days = Math.ceil((new Date(nextTrip.date).getTime() - Date.now()) / 86400000);
 
   return (
-    <>
-      {/* Hero 全屏封面 */}
-      <section className="relative h-screen w-full overflow-hidden grain">
-        <div
-          className="absolute inset-0 bg-cover bg-center vignette"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1528164344705-47542687000d?w=2400&q=80')" }}
-        />
-        <div className="relative z-10 h-full flex flex-col justify-end max-w-6xl mx-auto px-8 pb-24 text-white">
-          <div className="font-mono-ui text-xs tracking-[0.3em] opacity-80 mb-6">
-            ISSUE 001 · SPRING 2026
-          </div>
-          <h1 className="font-display text-7xl md:text-9xl leading-[0.95] mb-6">
-            Field<br/>Notes<span className="text-[#c8553d]">.</span>
-          </h1>
-          <p className="max-w-md text-lg opacity-90 font-serif italic">
-            &ldquo;走过的每一条街，都会在某个失眠的夜里，再走一遍。&rdquo;
-          </p>
-          <div className="mt-10 flex gap-8 text-xs font-mono-ui tracking-widest opacity-70">
-            <span>SCROLL</span>
-            <span>↓</span>
-          </div>
+    <div className="max-w-[1024px] mx-auto px-4 sm:px-6 md:px-8 pt-4 md:pt-12 pb-24 space-y-12">
+      {/* 头部问候 */}
+      <header className="px-2">
+        <div className="text-[13px] font-bold text-[#86868B] uppercase tracking-wider mb-1">
+          {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
         </div>
-      </section>
+        <h1 className="text-4xl md:text-5xl font-display text-[#1D1D1F]">
+          Discovery
+        </h1>
+      </header>
 
-      {/* 数据墙 */}
-      <section className="max-w-6xl mx-auto px-8 py-24 border-b border-black/10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((s) => (
-            <div key={s.label}>
-              <div className="font-display text-6xl md:text-7xl">{s.n}</div>
-              <div className="mt-2 text-xs font-mono-ui uppercase tracking-widest text-gray-500">{s.label}</div>
+      {/* App Store Today Style Featured Card */}
+      <section>
+        <AppleCard className="relative w-full aspect-[4/5] sm:aspect-[16/9] md:aspect-[21/9] group block" hoverScale={false}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src={nextTrip.img} 
+            alt={nextTrip.destination} 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80" />
+          
+          <div className="absolute top-6 left-6 right-6 flex justify-between items-start text-white">
+            <div className="bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
+              <Calendar size={14} /> Next Departure
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
 
-      {/* 下次旅行预告 —— 杂志封面式 */}
-      <section className="max-w-6xl mx-auto px-8 py-24">
-        <div className="text-xs font-mono-ui tracking-[0.3em] text-[#c8553d] mb-8">
-          NEXT DEPARTURE ——
-        </div>
-        <div className="grid md:grid-cols-2 gap-12 items-end">
-          <div>
-            <div className="font-mono-ui text-sm text-gray-500 mb-4">{nextTrip.date}</div>
-            <h2 className="font-display text-7xl md:text-8xl leading-none">{nextTrip.destination}</h2>
-            <div className="mt-4 font-serif text-2xl text-gray-700">{nextTrip.destinationCN}</div>
-            <p className="mt-8 text-lg text-gray-600 leading-relaxed max-w-md">
+          <div className="absolute bottom-6 md:bottom-10 left-6 right-6 md:left-10 md:right-10 text-white">
+            <div className="font-semibold text-white/80 text-sm md:text-base mb-1">{nextTrip.destinationCN}</div>
+            <h2 className="font-display text-4xl md:text-6xl mb-3">{nextTrip.destination}</h2>
+            <p className="text-sm md:text-lg max-w-lg font-medium opacity-90 hidden sm:block mb-4">
               {nextTrip.note}
             </p>
-            <div className="mt-6 flex items-center gap-2 text-xs font-mono-ui text-gray-500">
-              <MapPin size={14} /> {nextTrip.coords}
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="bg-white text-[#1D1D1F] px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
+                <Counter value={days} direction="down" /> Days Left
+              </div>
+              <div className="flex items-center gap-1.5 text-xs font-mono-ui bg-black/30 backdrop-blur-md px-3 py-2 rounded-full">
+                <MapPin size={12} /> {nextTrip.coords}
+              </div>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-xs font-mono-ui tracking-widest text-gray-500 mb-2">
-              COUNTDOWN
-            </div>
-            <div className="font-display text-[10rem] md:text-[14rem] leading-none text-[#c8553d]">
-              {days}
-            </div>
-            <div className="text-xs font-mono-ui tracking-widest text-gray-500">
-              DAYS TO GO
-            </div>
-          </div>
-        </div>
+        </AppleCard>
       </section>
 
-      {/* 最近旅行 —— 不对齐网格，制造杂志感 */}
-      <section className="max-w-6xl mx-auto px-8 py-24 border-t border-black/10">
-        <div className="flex items-end justify-between mb-12">
-          <div>
-            <div className="text-xs font-mono-ui tracking-[0.3em] text-gray-500 mb-4">
-              RECENT JOURNEYS
-            </div>
-            <h2 className="font-display text-5xl">最近的脚印</h2>
+      {/* Bento Box Dashboard */}
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        {/* Stat 1 */}
+        <AppleCard delay={0.1} className="p-6 flex flex-col justify-between aspect-square">
+          <div className="w-10 h-10 rounded-full bg-[#007AFF]/10 flex items-center justify-center text-[#007AFF] mb-4">
+            <Map size={20} />
           </div>
-          <Link href="/travels" className="group flex items-center gap-2 text-sm font-mono-ui">
-            VIEW ALL
-            <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition" />
+          <div>
+            <div className="text-4xl font-display text-[#1D1D1F] mb-1">
+              <Counter value={12} />
+            </div>
+            <div className="text-[13px] font-semibold text-[#86868B]">Countries</div>
+          </div>
+        </AppleCard>
+
+        {/* Stat 2 */}
+        <AppleCard delay={0.2} className="p-6 flex flex-col justify-between aspect-square">
+          <div className="w-10 h-10 rounded-full bg-[#FF9500]/10 flex items-center justify-center text-[#FF9500] mb-4">
+            <ImageIcon size={20} />
+          </div>
+          <div>
+            <div className="text-4xl font-display text-[#1D1D1F] mb-1">
+              <Counter value={147} />
+            </div>
+            <div className="text-[13px] font-semibold text-[#86868B]">Photos</div>
+          </div>
+        </AppleCard>
+
+        {/* Quick Note (Span 2) */}
+        <AppleCard delay={0.3} className="col-span-2 p-6 flex flex-col justify-center relative overflow-hidden">
+          <div className="absolute -right-6 -bottom-6 opacity-[0.03] pointer-events-none">
+            <ImageIcon size={180} />
+          </div>
+          <div className="text-[13px] font-semibold text-[#86868B] mb-2 flex items-center gap-2">
+            LATEST NOTE <ArrowRight size={12} />
+          </div>
+          <Link href={`/notes/${notes[0]?.slug}`} className="block group">
+            <h3 className="text-xl md:text-2xl font-bold text-[#1D1D1F] mb-2 line-clamp-2 group-hover:text-[#007AFF] transition-colors">
+              {notes[0]?.title}
+            </h3>
+            <p className="text-[#86868B] text-sm line-clamp-2">
+              Learning fragments and recent thoughts on technology and design.
+            </p>
+          </Link>
+        </AppleCard>
+      </section>
+
+      {/* Horizontal Scroll (Recent Travels) */}
+      <section>
+        <div className="flex items-center justify-between px-2 mb-4">
+          <h2 className="text-2xl font-bold text-[#1D1D1F]">Recent Journeys</h2>
+          <Link href="/travels" className="text-[15px] font-semibold text-[#007AFF] hover:opacity-80 active-scale">
+            See All
           </Link>
         </div>
-
-        <div className="grid md:grid-cols-12 gap-8">
+        
+        {/* 横向滚动容器 */}
+        <div className="flex overflow-x-auto gap-4 md:gap-6 pb-8 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory hide-scrollbar">
           {travels.map((t, i) => (
-            <Link
-              key={t.slug}
+            <Link 
+              key={t.slug} 
               href={`/travels/${t.slug}`}
-              className={`group block ${
-                i === 0 ? 'md:col-span-7' : i === 1 ? 'md:col-span-5 md:mt-24' : 'md:col-span-6'
-              }`}
+              className="snap-start shrink-0 w-[280px] md:w-[320px] active-scale"
             >
-              <div className="relative aspect-[4/5] overflow-hidden bg-gray-200 mb-4">
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('${t.cover || t.photos?.[0] || 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=1200'}')`,
-                  }}
+              <AppleCard delay={i * 0.1} className="h-[360px] md:h-[400px] relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src={t.cover || t.photos?.[0] || 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800'}
+                  alt={t.title}
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className="absolute top-4 left-4 text-white font-mono-ui text-xs tracking-widest mix-blend-difference">
-                  N° {String(i + 1).padStart(2, '0')}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-white/70 mb-2">
+                    {t.date}
+                  </div>
+                  <h3 className="text-2xl font-display font-bold mb-1 leading-tight">
+                    {t.title}
+                  </h3>
+                  <div className="text-sm text-white/80 flex items-center gap-1.5">
+                    <MapPin size={12} /> {t.locationName}
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-baseline justify-between">
-                <div className="font-mono-ui text-xs text-gray-500 tracking-widest">
-                  {t.date} · {t.locationName}
-                </div>
-              </div>
-              <h3 className="font-display text-3xl mt-2 group-hover:text-[#c8553d] transition">
-                {t.title}
-              </h3>
-              {t.mood && (
-                <div className="mt-3 text-sm italic text-gray-600">— {t.mood}</div>
-              )}
+              </AppleCard>
             </Link>
           ))}
+          {/* Spacer for right edge in scroll */}
+          <div className="w-1 md:hidden shrink-0"></div>
         </div>
       </section>
-
-      {/* 签名区 */}
-      <section className="max-w-6xl mx-auto px-8 py-32 text-center border-t border-black/10">
-        <div className="font-serif italic text-3xl md:text-4xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
-          &ldquo;我不是在旅行，就是在去旅行的路上。&rdquo;
-        </div>
-        <div className="mt-8 font-display text-2xl text-[#c8553d]">— Liu Shen</div>
-      </section>
-    </>
+    </div>
   );
 }

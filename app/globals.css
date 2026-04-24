@@ -2,49 +2,80 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --bg: #faf8f5;
-  --ink: #1a1a1a;
-  --muted: #6b6b6b;
-  --accent: #c8553d;
-  --line: rgba(0,0,0,0.08);
+  --bg: #F5F5F7; /* Apple System Gray */
+  --bg-card: #FFFFFF;
+  --ink: #1D1D1F; /* Apple Primary Text */
+  --muted: #86868B; /* Apple Secondary Text */
+  --accent: #007AFF; /* iOS Blue, though we can use a custom accent */
+  --line: rgba(0,0,0,0.05);
+  
+  /* Shadow Variables */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.12);
 }
 
 html, body {
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Noto Serif SC', 'Songti SC', Georgia, serif;
-  font-feature-settings: "palt";
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none; /* App-like bounce prevention on body */
 }
 
+/* Typography Utilities */
 .font-display {
-  font-family: 'Playfair Display', 'Noto Serif SC', serif;
-  letter-spacing: -0.02em;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+  letter-spacing: -0.04em; /* Tight tracking for large headers */
+  font-weight: 700;
 }
 
 .font-mono-ui {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   letter-spacing: 0.05em;
 }
 
-/* 胶片颗粒感 */
-.grain::after {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  opacity: 0.25;
+/* Hide Scrollbar for horizontal scrolls (App-like carousels) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* 渐变遮罩 */
-.vignette::after {
-  content:'';
-  position:absolute; inset:0;
-  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%);
-  pointer-events: none;
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid rgba(0,0,0,0.1);
 }
 
-/* 自定义光标 */
-* { cursor: default; }
-a, button { cursor: pointer; }
+.glass-dark {
+  background: rgba(29, 29, 31, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: white;
+}
+
+/* Smooth active state for touch targets */
+.active-scale:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Utility to ensure images don't stretch weirdly */
+img {
+  -webkit-user-drag: none;
+}
+
+/* 覆盖默认排版颜色 */
+.prose {
+  --tw-prose-body: var(--ink);
+  --tw-prose-headings: var(--ink);
+  --tw-prose-lead: var(--muted);
+  --tw-prose-links: var(--accent);
+}
