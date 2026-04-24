@@ -4,6 +4,7 @@ import Image from 'next/image';
 export async function generateStaticParams() {
   return getAllPosts('travels').map((p) => ({ slug: p.slug }));
 }
+export const dynamicParams = false;
 
 export default async function TravelDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
