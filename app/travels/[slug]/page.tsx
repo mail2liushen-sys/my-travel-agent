@@ -1,9 +1,8 @@
 import { getAllPosts, getPost } from '@/src/lib/markdown';
-import dynamic from 'next/dynamic';
+import TravelMapClient from '@/src/components/TravelMapClient';
 import { notFound } from 'next/navigation';
 import { MapPin } from 'lucide-react';
 
-const TravelMap = dynamic(() => import('@/src/components/TravelMap'), { ssr: false });
 
 export const dynamicParams = false;
 export async function generateStaticParams() {
@@ -62,7 +61,7 @@ export default async function TravelDetail({ params }: { params: Promise<{ slug:
         {meta.location && (
           <div className="mt-20">
             <div className="text-xs font-mono-ui tracking-[0.3em] text-[#c8553d] mb-6">LOCATION ——</div>
-            <TravelMap lat={meta.location[0]} lng={meta.location[1]} name={meta.locationName || ''} />
+            <TravelMapClient lat={meta.location[0]} lng={meta.location[1]} name={meta.locationName || ''} />
             <div className="mt-2 font-mono-ui text-xs text-gray-500 tracking-widest">
               {meta.location[0]}°N · {meta.location[1]}°E
             </div>
