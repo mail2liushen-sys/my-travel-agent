@@ -3,18 +3,23 @@ import './globals.css';
 import Nav from '@/src/components/Nav';
 
 export const metadata: Metadata = {
-  title: '刘深的旅行 & 学习笔记',
-  description: '记录旅行的脚印与学习的轨迹',
+  title: 'Liu Shen · Field Notes',
+  description: '一个关于旅行、此刻与远方的私人档案',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-CN">
-      <body className="min-h-screen bg-gray-50 text-gray-900 antialiased">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+      </head>
+      <body className="antialiased">
         <Nav />
-        <main className="max-w-4xl mx-auto px-6 py-10">{children}</main>
-        <footer className="text-center text-sm text-gray-400 py-8">
-          © {new Date().getFullYear()} 刘深 · Made with Next.js
+        <main>{children}</main>
+        <footer className="border-t border-black/10 py-12 text-center text-xs font-mono-ui text-gray-500 tracking-widest">
+          © {new Date().getFullYear()} · LIU SHEN · FIELD NOTES
         </footer>
       </body>
     </html>

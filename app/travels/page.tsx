@@ -4,16 +4,34 @@ import { getAllPosts } from '@/src/lib/markdown';
 export default function TravelsPage() {
   const posts = getAllPosts('travels');
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">所有旅行 ✈️</h1>
-      <div className="space-y-4">
-        {posts.map((p) => (
-          <Link key={p.slug} href={`/travels/${p.slug}`}
-            className="block bg-white rounded-xl p-6 shadow hover:shadow-md transition">
-            <div className="text-xs text-gray-500">{p.date} · 📍 {p.locationName}</div>
-            <div className="text-xl font-semibold mt-2">{p.title}</div>
-            {p.summary && <div className="text-gray-600 mt-2">{p.summary}</div>}
-            {p.mood && <div className="text-sm text-blue-600 mt-2">心情：{p.mood}</div>}
+    <div className="max-w-6xl mx-auto px-8 pt-40 pb-24">
+      <div className="text-xs font-mono-ui tracking-[0.3em] text-[#c8553d] mb-8">
+        INDEX ——
+      </div>
+      <h1 className="font-display text-7xl md:text-8xl leading-none mb-16">
+        All Travels<span className="text-[#c8553d]">.</span>
+      </h1>
+
+      <div className="border-t border-black/20">
+        {posts.map((p, i) => (
+          <Link
+            key={p.slug}
+            href={`/travels/${p.slug}`}
+            className="group grid grid-cols-12 gap-4 py-8 border-b border-black/10 items-baseline hover:bg-black/[0.02] transition px-4 -mx-4"
+          >
+            <div className="col-span-1 font-mono-ui text-xs text-gray-400">
+              N°{String(i + 1).padStart(2, '0')}
+            </div>
+            <div className="col-span-2 font-mono-ui text-xs text-gray-500 tracking-widest">
+              {p.date}
+            </div>
+            <div className="col-span-5 font-display text-3xl group-hover:text-[#c8553d] group-hover:translate-x-2 transition">
+              {p.title}
+            </div>
+            <div className="col-span-3 text-sm text-gray-600 italic">
+              {p.locationName}
+            </div>
+            <div className="col-span-1 text-right font-mono-ui text-xs text-gray-400">→</div>
           </Link>
         ))}
       </div>

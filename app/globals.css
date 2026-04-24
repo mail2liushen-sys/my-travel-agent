@@ -1,26 +1,50 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #faf8f5;
+  --ink: #1a1a1a;
+  --muted: #6b6b6b;
+  --accent: #c8553d;
+  --line: rgba(0,0,0,0.08);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+  font-feature-settings: "palt";
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.font-display {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  letter-spacing: -0.02em;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.font-mono-ui {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: 0.05em;
 }
+
+/* 胶片颗粒感 */
+.grain::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+/* 渐变遮罩 */
+.vignette::after {
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%);
+  pointer-events: none;
+}
+
+/* 自定义光标 */
+* { cursor: default; }
+a, button { cursor: pointer; }

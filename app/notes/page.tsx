@@ -4,15 +4,29 @@ import { getAllPosts } from '@/src/lib/markdown';
 export default function NotesPage() {
   const posts = getAllPosts('notes');
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">学习笔记 📚</h1>
-      <div className="space-y-3">
+    <div className="max-w-4xl mx-auto px-8 pt-40 pb-24">
+      <div className="text-xs font-mono-ui tracking-[0.3em] text-[#c8553d] mb-8">
+        KNOWLEDGE ——
+      </div>
+      <h1 className="font-display text-7xl md:text-8xl leading-none mb-4">
+        Notes<span className="text-[#c8553d]">.</span>
+      </h1>
+      <p className="text-gray-500 italic mb-16 font-serif text-lg">学习的碎片，记下才是自己的。</p>
+
+      <div className="space-y-2">
         {posts.map((p) => (
-          <Link key={p.slug} href={`/notes/${p.slug}`}
-            className="block bg-white rounded-lg p-4 shadow-sm hover:shadow transition">
-            <div className="text-xs text-gray-500">{p.date}</div>
-            <div className="font-semibold mt-1">{p.title}</div>
-            {p.tags && <div className="mt-2 flex gap-1">{p.tags.map(t => <span key={t} className="text-xs bg-gray-100 px-2 py-0.5 rounded">#{t}</span>)}</div>}
+          <Link
+            key={p.slug}
+            href={`/notes/${p.slug}`}
+            className="group flex items-baseline gap-6 py-5 border-b border-black/10 hover:border-[#c8553d] transition"
+          >
+            <span className="font-mono-ui text-xs text-gray-400 tracking-widest w-24 shrink-0">{p.date}</span>
+            <span className="font-display text-2xl flex-1 group-hover:translate-x-2 group-hover:text-[#c8553d] transition">{p.title}</span>
+            {p.tags && (
+              <span className="font-mono-ui text-xs text-gray-400 uppercase tracking-widest">
+                {p.tags.slice(0,2).join(' · ')}
+              </span>
+            )}
           </Link>
         ))}
       </div>
